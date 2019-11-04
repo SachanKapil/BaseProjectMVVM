@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">BaseProjectMVVM</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="enable_storage_permission">For uploading, you have to enable storage permission</string>
+    <string name="enable_camera_permission">For uploading, you have to enable camera permission</string>
+    <string name="enable_audio_permission">For uploading, you have to enable record audio permission</string>
+    <string name="message_something_went_wrong">Something went wrong</string>
+    <string name="message_no_internet">No internet</string>
+    <string name="message_session_expired">Session expired</string>
+    <string name="message_no_data_found">No data found</string>
+    <string name="message_account_blocked">Account blocked</string>
+</resources>
