@@ -26,8 +26,8 @@ import android.view.inputmethod.InputMethodManager;
 
 import androidx.appcompat.app.AlertDialog;
 
-import com.mvvmbaseproject.App;
-import com.mvvmbaseproject.R;
+import com.baseprojectmvvm.App;
+import com.baseprojectmvvm.R;
 
 import java.io.IOException;
 import java.io.InputStream;
