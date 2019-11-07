@@ -30,4 +30,20 @@ public class AppConstants {
         public static final String USER_ID = "user_id";
     }
 
+    public class DateTimeConstants{
+            public static final String DATE = "yyyy-MM-dd";
+            public static final String DATE_FULL = "EEEE, d MMMM yyyy";
+            public static final String DATE_SIMPLE = "d MMMM yyyy";
+            public static final String WEEKDAY = "EEEE";
+            public static final String DATE_TIME = "yyyy-MM-dd HH:mm:ss";
+            public static final String TWEL_HOUR_FORMAT_TIME = "hh:mm:ss";
+            public static final String TWENTY_FOUR_HOUR_FORMAT_TIME = "HH:mm:ss";
+            public static final String TWENTY_FOUR_HOUR_FORMAT_TIME_AM = "hh:mm a";
+            //Todo:change this into hh:mm
+            public static final String HOUR_FORMAT_TIME = "hh:mm:ss";
+            public static final String HOUR_MINUTE_TIME = "hh:mm";
+            public static final String SERVER_TO = "dd-MM-yyyy";
+            public static final String AM_PM = "a";
+            public static final String DATE_FORMAT = "dd-MM-yyyy";
+    }
 }
