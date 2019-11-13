@@ -6,10 +6,10 @@ import com.baseprojectmvvm.BuildConfig;
 import com.baseprojectmvvm.constant.AppConstants;
 import com.baseprojectmvvm.data.DataManager;
 import com.baseprojectmvvm.data.model.BaseResponse;
+import com.baseprojectmvvm.data.model.onboarding.User;
 import com.google.gson.GsonBuilder;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Interceptor;
@@ -86,8 +86,12 @@ public class ApiManager {
         return retrofit.create(ApiClient.class);
     }
 
-//    public Call<BaseResponse<Object>> sendOtpRequest(SendOtpRequest request) {
-//        return apiClient.sendOTPRequest(request);
-//    }
+    public Call<BaseResponse<User>> hitLoginApi(User user) {
+        return apiClient.login(user);
+    }
+
+    public Call<BaseResponse<User>> hitSignUpApi(User user) {
+        return apiClient.signUp(user);
+    }
 
 }

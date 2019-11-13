@@ -22,17 +22,17 @@ public abstract class NetworkCallback<T> implements Callback<BaseResponse<T>> {
     private static final int NO_INTERNET = 9;
     private static final int NOT_ABLE_TO_CONNECT = 999;
 
-    abstract void onSuccess(T t);
+    public abstract void onSuccess(T t);
 
-    abstract void onFailure(FailureResponse failureResponse);
+    public abstract void onFailure(FailureResponse failureResponse);
 
-    abstract void onError(Throwable t);
+    public abstract void onError(Throwable t);
 
     @Override
     public void onResponse(Call<BaseResponse<T>> call, Response<BaseResponse<T>> response) {
         if (response.isSuccessful()
                 && response.body() != null
-                && response.body().getStatus().equalsIgnoreCase("success")) {
+                && response.body().getMessage().equalsIgnoreCase("success")) {
             onSuccess(response.body().getData());
         } else {
             FailureResponse failureErrorBody = null;

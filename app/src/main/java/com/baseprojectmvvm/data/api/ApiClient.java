@@ -1,19 +1,21 @@
 package com.baseprojectmvvm.data.api;
 
 import com.baseprojectmvvm.data.model.BaseResponse;
-
-import java.util.ArrayList;
+import com.baseprojectmvvm.data.model.onboarding.User;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
-import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
 
 interface ApiClient {
 
-//    @POST("api/send-sms")
-//    Call<BaseResponse<Object>> sendOTPRequest(@Body SendOtpRequest sendOtpRequest);
+    @POST("login")
+    Call<BaseResponse<User>> login(@Body User user);
+
+
+    @POST("signup")
+    Call<BaseResponse<User>> signUp(@Body User user);
+
 
 //    @GET("/api/user/user-event")
 //    Call<BaseResponse<EventsResponse>> getEvents(@QueryMap HashMap<String, Object> eventDetails);

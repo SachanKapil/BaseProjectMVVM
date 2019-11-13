@@ -16,7 +16,8 @@ public class App extends Application {
 
     @Override
     protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
+        super.attachBaseContext(base
+        );
 
         // The following line triggers the initialization of ACRA
 //        ACRA.init(this);

@@ -28,6 +28,7 @@ public class AppConstants {
         public static final String USER_DETAILS = "user_detail";
         public static final String DEVICE_TOKEN = "device_token";
         public static final String USER_ID = "user_id";
+        public static final String USER_NAME = "user_name";
     }
 
     public class DateTimeConstants{
@@ -39,11 +40,25 @@ public class AppConstants {
             public static final String TWEL_HOUR_FORMAT_TIME = "hh:mm:ss";
             public static final String TWENTY_FOUR_HOUR_FORMAT_TIME = "HH:mm:ss";
             public static final String TWENTY_FOUR_HOUR_FORMAT_TIME_AM = "hh:mm a";
-            //Todo:change this into hh:mm
             public static final String HOUR_FORMAT_TIME = "hh:mm:ss";
             public static final String HOUR_MINUTE_TIME = "hh:mm";
             public static final String SERVER_TO = "dd-MM-yyyy";
             public static final String AM_PM = "a";
             public static final String DATE_FORMAT = "dd-MM-yyyy";
+    }
+
+    public static class UIVALIDATIONS {
+        public static final int EMAIL_EMPTY = 101;
+        public static final int PASSWORD_EMPTY = 102;
+        public static final int INVALID_PASSWORD = 104;
+        public static final int INVALID_EMAIL = 103;
+        public static final int NAME_EMPTY = 105;
+        public static final int NEW_PASSWORD_EMPTY = 106;
+        public static final int CONFIRM_PASSWORD_EMPTY = 107;
+        public static final int PASSWORD_NOT_MATCHED = 108;
+        public static final int INVALID_NAME = 109;
+        public static final int PHONE_EMPTY = 110;
+        public static final int INVALID_PHONE = 111;
+        public static final int OLD_PASSWORD_EMPTY = 112;
     }
 }

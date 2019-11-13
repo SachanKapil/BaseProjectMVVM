@@ -7,4 +7,6 @@
     <color name="black_30_alpha">#48000000</color>
     <color name="black_60_alpha">#96000000</color>
     <color name="black_90_alpha">#E6000000</color>
+
+    <color name="white">#ffffff</color>
 </resources>

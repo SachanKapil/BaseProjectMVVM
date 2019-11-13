@@ -5,7 +5,12 @@ import android.content.Context;
 
 import com.baseprojectmvvm.constant.AppConstants;
 import com.baseprojectmvvm.data.api.ApiManager;
+import com.baseprojectmvvm.data.model.BaseResponse;
+import com.baseprojectmvvm.data.model.onboarding.User;
 import com.baseprojectmvvm.data.preferences.PreferenceManager;
+import com.google.gson.Gson;
+
+import retrofit2.Call;
 
 public class DataManager {
 
@@ -55,10 +60,6 @@ public class DataManager {
     }
 
 
-//    public Call<CategoryListResponse> hitGetCategoryApi(int type) {
-//        return apiManager.hitCategoryApi(type);
-//    }
-
     public String getRefreshToken() {
         return mPrefManager.getString(AppConstants.PreferenceConstants.REFRESH_TOKEN);
     }
@@ -96,6 +97,20 @@ public class DataManager {
 
     public String getUserId() {
         return mPrefManager.getString(AppConstants.PreferenceConstants.USER_ID);
+    }
+
+    public void saveUserDetails(User user) {
+        //save user name differently
+        mPrefManager.putString(AppConstants.PreferenceConstants.USER_NAME, user.getFirstName());
+        String userDetail = new Gson().toJson(user);
+        mPrefManager.putString(AppConstants.PreferenceConstants.USER_DETAILS, userDetail);
+    }
+
+    public Call<BaseResponse<User>> hitLoginApi(User user) {
+        return apiManager.hitLoginApi(user);
+    }
+    public Call<BaseResponse<User>> hitSignUpApi(User user) {
+        return apiManager.hitSignUpApi(user);
     }
 
 //    public User getUserDetails() {

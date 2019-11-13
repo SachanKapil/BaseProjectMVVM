@@ -7,6 +7,14 @@ public class FailureResponse {
     private int errorCode;
     private String errorMessage;
 
+    public FailureResponse(int errorCode, String errorMessage) {
+        this.errorCode = errorCode;
+        this.errorMessage = errorMessage;
+    }
+
+    public FailureResponse() {
+    }
+
     public static FailureResponse getGenericError() {
         FailureResponse response = new FailureResponse();
         response.errorCode = 1818;

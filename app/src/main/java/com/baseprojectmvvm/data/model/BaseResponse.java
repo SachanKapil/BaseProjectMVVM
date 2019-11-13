@@ -4,22 +4,22 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class BaseResponse<T> {
-    @SerializedName("status")
+    @SerializedName("CODE")
     @Expose
-    private String status;
-    @SerializedName("message")
+    private Integer code;
+    @SerializedName("MESSAGE")
     @Expose
     private String message;
-    @SerializedName("data")
+    @SerializedName("RESULT")
     @Expose
     private T data;
 
-    public String getStatus() {
-        return status;
+    public Integer getCode() {
+        return code;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setCode(Integer code) {
+        this.code = code;
     }
 
     public String getMessage() {
