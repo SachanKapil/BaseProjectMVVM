@@ -20,24 +20,24 @@
     </style>
 
     <style name="IndicatorView">
-        <item name="android:minWidth">48dip</item>
-        <item name="android:maxWidth">48dip</item>
-        <item name="android:minHeight">48dip</item>
-        <item name="android:maxHeight">48dip</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:maxWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:maxHeight">48dp</item>
     </style>
 
     <style name="IndicatorView.Large">
-        <item name="android:minWidth">76dip</item>
-        <item name="android:maxWidth">76dip</item>
-        <item name="android:minHeight">76dip</item>
-        <item name="android:maxHeight">76dip</item>
+        <item name="android:minWidth">76dp</item>
+        <item name="android:maxWidth">76dp</item>
+        <item name="android:minHeight">76dp</item>
+        <item name="android:maxHeight">76dp</item>
     </style>
 
     <style name="IndicatorView.Medium">
-        <item name="android:minWidth">48dip</item>
-        <item name="android:maxWidth">48dip</item>
-        <item name="android:minHeight">48dip</item>
-        <item name="android:maxHeight">48dip</item>
+        <item name="android:minWidth">48dp</item>
+        <item name="android:maxWidth">48dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:maxHeight">48dp</item>
     </style>
 
     <style name="EditTextStyle">

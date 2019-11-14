@@ -80,10 +80,10 @@ public class IndicatorView extends View {
     }
 
     private void init(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        mMinWidth = 24;
-        mMaxWidth = 48;
-        mMinHeight = 24;
-        mMaxHeight = 48;
+        mMinWidth = 150;
+        mMaxWidth = 150;
+        mMinHeight = 150;
+        mMaxHeight = 150;
 
         final TypedArray a = context.obtainStyledAttributes(
                 attrs, R.styleable.IndicatorView, defStyleAttr, defStyleRes);
