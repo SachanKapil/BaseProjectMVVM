@@ -13,7 +13,7 @@ import com.baseprojectmvvm.data.model.onboarding.User;
 public class LoginRepo {
 
     /**
-     * hit api for events listing
+     * hit api for log in
      */
     MutableLiveData<Event<WrappedResponse<User>>> hitLoginApi(User user) {
 

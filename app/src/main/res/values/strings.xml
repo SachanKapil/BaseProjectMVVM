@@ -10,6 +10,11 @@
     <string name="enable_camera_permission">For uploading, you have to enable camera permission</string>
     <string name="enable_audio_permission">For uploading, you have to enable record audio permission</string>
 
+    <string name="hint_password">Password</string>
+    <string name="hint_number">Number</string>
+    <string name="hint_email">Email</string>
+    <string name="hint_name">Name</string>
+
     <string name="message_something_went_wrong">Something went wrong</string>
     <string name="message_no_internet">No internet</string>
     <string name="message_session_expired">Session expired</string>
@@ -19,16 +24,10 @@
     <string name="message_enter_valid_email">Please enter valid email</string>
     <string name="message_enter_password">Please enter password</string>
     <string name="message_enter_valid_password">Please enter valid password</string>
-
-    <string name="hint_password">Password</string>
-    <string name="hint_number">Number</string>
-    <string name="hint_email">Email</string>
-    <string name="hint_name">Name</string>
     <string name="message_login_success">Login Success</string>
     <string name="message_enter_name">Please enter name</string>
     <string name="message_enter_valid_name">Please enter valid name</string>
     <string name="message_enter_phone">Please enter phone</string>
     <string name="message_enter_valid_phone">Please enter valid phone</string>
-
 
 </resources>
