@@ -20,7 +20,7 @@ import com.baseprojectmvvm.databinding.FragmentSignUpBinding;
 import com.baseprojectmvvm.ui.onboarding.OnBoardActivity;
 
 
-public class SignUpFragment extends BaseFragment {
+public class SignUpFragment extends BaseFragment<FragmentSignUpBinding> {
 
     private FragmentSignUpBinding mBinding;
     private SignUpViewModel mSignUpViewModel;
@@ -50,7 +50,7 @@ public class SignUpFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         DataManager.getInstance().saveDeviceId(getDeviceId());
         mSignUpViewModel = ViewModelProviders.of(this).get(SignUpViewModel.class);
-        mBinding = (FragmentSignUpBinding) getViewDataBinding();
+        mBinding = getViewDataBinding();
         mBinding.setViewModel(mSignUpViewModel);
         initObservers();
     }

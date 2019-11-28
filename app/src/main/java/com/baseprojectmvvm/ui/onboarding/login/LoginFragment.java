@@ -16,7 +16,7 @@ import com.baseprojectmvvm.data.model.WrappedResponse;
 import com.baseprojectmvvm.data.model.onboarding.User;
 import com.baseprojectmvvm.databinding.FragmentLoginBinding;
 
-public class LoginFragment extends BaseFragment {
+public class LoginFragment extends BaseFragment<FragmentLoginBinding> {
 
     private FragmentLoginBinding mBinding;
     private ILoginHost mLoginHost;
@@ -44,7 +44,7 @@ public class LoginFragment extends BaseFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mLoginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
-        mBinding = (FragmentLoginBinding) getViewDataBinding();
+        mBinding =  getViewDataBinding();
         mBinding.setViewModel(mLoginViewModel);
         mBinding.setLoginFragment(this);
         initObservers();
