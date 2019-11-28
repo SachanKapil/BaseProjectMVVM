@@ -5,11 +5,12 @@ import android.os.Bundle;
 
 import com.baseprojectmvvm.R;
 import com.baseprojectmvvm.base.BaseActivity;
+import com.baseprojectmvvm.databinding.ActivityOnBoardBinding;
 import com.baseprojectmvvm.ui.home.HomeActivity;
 import com.baseprojectmvvm.ui.onboarding.login.LoginFragment;
 import com.baseprojectmvvm.ui.onboarding.signup.SignUpFragment;
 
-public class OnBoardActivity extends BaseActivity implements LoginFragment.ILoginHost, SignUpFragment.ISignUpHost {
+public class OnBoardActivity extends BaseActivity<ActivityOnBoardBinding> implements LoginFragment.ILoginHost, SignUpFragment.ISignUpHost {
 
     @Override
     public int getLayoutId() {
