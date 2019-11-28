@@ -91,6 +91,14 @@ public class DataManager {
         mPrefManager.putString(AppConstants.PreferenceConstants.DEVICE_TOKEN, deviceToken);
     }
 
+    public String getDeviceId() {
+        return mPrefManager.getString(AppConstants.PreferenceConstants.DEVICE_ID);
+    }
+
+    public void saveDeviceId(String deviceId) {
+        mPrefManager.putString(AppConstants.PreferenceConstants.DEVICE_ID, deviceId);
+    }
+
     public void saveUserId(Integer userId) {
         mPrefManager.putString(AppConstants.PreferenceConstants.USER_ID, String.valueOf(userId));
     }

@@ -12,22 +12,23 @@ import com.baseprojectmvvm.ui.onboarding.signup.SignUpFragment;
 public class OnBoardActivity extends BaseActivity implements LoginFragment.ILoginHost, SignUpFragment.ISignUpHost {
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_on_board);
-        showInitialFragment();
+    public int getLayoutId() {
+        return R.layout.activity_on_board;
     }
 
-    /**
-     * Method to show initial fragment
-     */
-    private void showInitialFragment() {
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        openLogInFragment();
+    }
+
+    private void openLogInFragment() {
         addFragment(R.id.frame_container, LoginFragment.getInstance(), LoginFragment.class.getSimpleName());
     }
 
     @Override
     public void openSignUpFragment() {
-        addFragmentWithBackstack(R.id.frame_container, SignUpFragment.getInstance(),
+        addFragmentWithBackStack(R.id.frame_container, SignUpFragment.getInstance(),
                 SignUpFragment.class.getSimpleName());
     }
 

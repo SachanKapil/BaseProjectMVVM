@@ -90,7 +90,6 @@ public class AppUtils {
     /**
      * This method is used to access config properties form AppConnectConfig file
      */
-
     public static String getProperty(String key, Context context) throws IOException {
         Properties properties = new Properties();
         AssetManager assetManager = context.getAssets();

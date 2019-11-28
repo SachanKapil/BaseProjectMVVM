@@ -2,10 +2,16 @@ package com.baseprojectmvvm.base;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 
 import com.baseprojectmvvm.R;
@@ -13,12 +19,22 @@ import com.baseprojectmvvm.constant.AppConstants;
 import com.baseprojectmvvm.data.model.FailureResponse;
 
 
-public class BaseFragment extends Fragment {
+public abstract class BaseFragment<MyDataBinding extends ViewDataBinding> extends Fragment {
+
+    private MyDataBinding mViewDataBinding;
+    private View mRootView;
+    private BaseActivity mActivity;
+
+    @LayoutRes
+    public abstract int getLayoutId();
 
 
     @Override
-    public void onAttach(Context context) {
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
+        if (context instanceof BaseActivity) {
+            this.mActivity = (BaseActivity) context;
+        }
     }
 
     @Override
@@ -31,8 +47,14 @@ public class BaseFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        mViewDataBinding = DataBindingUtil.inflate(inflater, getLayoutId(), container, false);
+        mRootView = mViewDataBinding.getRoot();
+        return mRootView;
+    }
+
+    public MyDataBinding getViewDataBinding() {
+        return mViewDataBinding;
     }
 
     public void onFailure(FailureResponse failureResponse) {
@@ -60,46 +82,62 @@ public class BaseFragment extends Fragment {
     }
 
     public void showToastLong(CharSequence message) {
-        ((BaseActivity) getActivity()).showToastLong(message);
+        if (mActivity != null) {
+            mActivity.showToastLong(message);
+        }
     }
 
     public void showToastShort(CharSequence message) {
-        ((BaseActivity) getActivity()).showToastShort(message);
+        if (mActivity != null) {
+            mActivity.showToastShort(message);
+        }
     }
 
     public void showProgressDialog() {
-        if (getActivity() != null)
-            ((BaseActivity) getActivity()).showProgressDialog();
+        if (mActivity != null)
+            mActivity.showProgressDialog();
     }
 
     public void hideProgressDialog() {
-        if (getActivity() != null)
-            ((BaseActivity) getActivity()).hideProgressDialog();
+        if (mActivity != null)
+            mActivity.hideProgressDialog();
     }
 
     public void showUnknownRetrofitError() {
-        ((BaseActivity) getActivity()).showUnknownRetrofitError();
-    }
-
-    public String getDeviceId() {
-        return ((BaseActivity) getActivity()).getDeviceId();
-    }
-
-    public void hideKeyboard() {
-        ((BaseActivity) getActivity()).hideKeyboard();
-    }
-
-    public void showKeyboard() {
-        ((BaseActivity) getActivity()).showKeyboard();
+        if (mActivity != null) {
+            mActivity.showUnknownRetrofitError();
+        }
     }
 
     public void showNoNetworkError() {
-        ((BaseActivity) getActivity()).showNoNetworkError();
+        if (mActivity != null) {
+            mActivity.showNoNetworkError();
+        }
+    }
+
+    public String getDeviceId() {
+        if (mActivity != null) {
+            return mActivity.getDeviceId();
+        } else {
+            return "";
+        }
+    }
+
+    public void hideKeyboard() {
+        if (mActivity != null) {
+            mActivity.hideKeyboard();
+        }
+    }
+
+    public void showKeyboard() {
+        if (mActivity != null) {
+            mActivity.showKeyboard();
+        }
     }
 
     public void popFragment() {
-        if (getActivity() != null) {
-            ((BaseActivity) getActivity()).popFragment();
+        if (mActivity != null) {
+            mActivity.popFragment();
         }
     }
 
@@ -107,6 +145,12 @@ public class BaseFragment extends Fragment {
     public void onStop() {
         hideProgressDialog();
         super.onStop();
+    }
+
+    @Override
+    public void onDetach() {
+        mActivity = null;
+        super.onDetach();
     }
 
 }

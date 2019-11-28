@@ -2,13 +2,10 @@ package com.baseprojectmvvm.ui.onboarding.login;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.AppCompatEditText;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
@@ -17,34 +14,12 @@ import com.baseprojectmvvm.base.BaseFragment;
 import com.baseprojectmvvm.data.model.FailureResponse;
 import com.baseprojectmvvm.data.model.WrappedResponse;
 import com.baseprojectmvvm.data.model.onboarding.User;
-import com.baseprojectmvvm.ui.onboarding.OnBoardActivity;
+import com.baseprojectmvvm.databinding.FragmentLoginBinding;
 
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
-
-/**
- * A simple {@link BaseFragment} subclass.
- */
 public class LoginFragment extends BaseFragment {
 
-
-    @BindView(R.id.et_email)
-    AppCompatEditText etEmail;
-    @BindView(R.id.et_password)
-    AppCompatEditText etPassword;
-    private Unbinder unbinder;
-
-    /**
-     * A {@link ILoginHost} object to interact with the host{@link OnBoardActivity}
-     * if any action has to be performed from the host.
-     */
+    private FragmentLoginBinding mBinding;
     private ILoginHost mLoginHost;
-
-    /**
-     * A {@link LoginViewModel} object to handle all the actions and business logic of login
-     */
     private LoginViewModel mLoginViewModel;
 
     public static LoginFragment getInstance() {
@@ -52,7 +27,12 @@ public class LoginFragment extends BaseFragment {
     }
 
     @Override
-    public void onAttach(Context context) {
+    public int getLayoutId() {
+        return R.layout.fragment_login;
+    }
+
+    @Override
+    public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof ILoginHost) {
             mLoginHost = (ILoginHost) context;
@@ -61,23 +41,26 @@ public class LoginFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_login, container, false);
-        unbinder = ButterKnife.bind(this, view);
-        return view;
-    }
-
-    @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mLoginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
-
+        mBinding = (FragmentLoginBinding) getViewDataBinding();
+        mBinding.setViewModel(mLoginViewModel);
+        mBinding.setLoginFragment(this);
         initObservers();
     }
 
     private void initObservers() {
+
+        //observing showProgressBar live data
+        mLoginViewModel.getShowProgressBarLiveData().observe(this, isStart -> {
+            if (isStart) {
+                showProgressDialog();
+            } else {
+                hideProgressDialog();
+            }
+        });
+
 
         //observing login live data
         mLoginViewModel.getLoginLiveData().observe(getViewLifecycleOwner(), wrappedResponseEvent -> {
@@ -111,29 +94,10 @@ public class LoginFragment extends BaseFragment {
         });
     }
 
-    @OnClick({R.id.bt_login, R.id.bt_sign_up})
-    void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.bt_login:
-                showProgressDialog();
-                mLoginViewModel.loginButtonClicked(new User(etEmail.getText().toString().trim(),
-                        etPassword.getText().toString().trim(), getDeviceId(), "1", "12345"));
-                break;
-            case R.id.bt_sign_up:
-                mLoginHost.openSignUpFragment();
-                break;
-        }
+    public void openSignUpFragment() {
+        mLoginHost.openSignUpFragment();
     }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    /**
-     * This interface is used to interact with the host {@link OnBoardActivity}
-     */
     public interface ILoginHost {
         void openSignUpFragment();
 

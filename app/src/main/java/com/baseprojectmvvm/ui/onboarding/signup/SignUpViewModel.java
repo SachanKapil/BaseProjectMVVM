@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModel;
 
 import com.baseprojectmvvm.R;
 import com.baseprojectmvvm.constant.AppConstants;
+import com.baseprojectmvvm.data.DataManager;
 import com.baseprojectmvvm.data.model.Event;
 import com.baseprojectmvvm.data.model.FailureResponse;
 import com.baseprojectmvvm.data.model.WrappedResponse;
@@ -18,82 +19,91 @@ import com.baseprojectmvvm.util.ResourceUtil;
 
 public class SignUpViewModel extends ViewModel {
 
+    public User user = new User();
     private SignUpRepo signUpRepo = new SignUpRepo();
 
+    private MutableLiveData<Boolean> showProgressBarLiveData = new MutableLiveData<>();
     private MutableLiveData<FailureResponse> validateLiveData = new MutableLiveData<>();
-
     private MutableLiveData<User> signUpLiveData = new MutableLiveData<>();
     private LiveData<Event<WrappedResponse<User>>> signUpResponseLiveData
             = Transformations.switchMap(signUpLiveData, request -> signUpRepo.hitSignUpApi(request));
 
+    // This method gives the show progressbar live data object
+    MutableLiveData<Boolean> getShowProgressBarLiveData() {
+        return showProgressBarLiveData;
+    }
+
+    // This method gives the validation live data object
+    MutableLiveData<FailureResponse> getValidationLiveData() {
+        return validateLiveData;
+    }
+
+    // This method gives the sign up live data object
     LiveData<Event<WrappedResponse<User>>> getSignUpLiveData() {
         return signUpResponseLiveData;
     }
 
-    /**
-     * Method used to hit sign up api after checking validations
-     *
-     * @param user contains all the params of the request
-     */
-    void signUpButtonClick(User user) {
+
+    //  Method used to hit sign up api after checking validations
+    public void doSignUp() {
+        showProgressBarLiveData.setValue(true);
+        user.setDevice_token(DataManager.getInstance().getDeviceToken());
+        user.setDevice_id(DataManager.getInstance().getDeviceId());
+        user.setPlatform("1");
         if (checkValidation(user)) {
             signUpLiveData.setValue(user);
         }
     }
 
     private boolean checkValidation(User user) {
-        if (user.getFirstName().isEmpty()) {
+        if (user.getFirstName() == null || user.getFirstName().trim().isEmpty()) {
             validateLiveData.setValue(new FailureResponse(
                     AppConstants.UIVALIDATIONS.NAME_EMPTY, ResourceUtil.getInstance()
                     .getString(R.string.message_enter_name)
             ));
             return false;
-        } else if (!user.getFirstName().matches("[a-z A-Z]*")) {
+        } else if (!user.getFirstName().trim().matches("[a-z A-Z]*")) {
             validateLiveData.setValue(new FailureResponse(
                     AppConstants.UIVALIDATIONS.INVALID_NAME, ResourceUtil.getInstance()
                     .getString(R.string.message_enter_valid_name)
             ));
             return false;
-        } else if (user.getEmail().isEmpty()) {
+        } else if (user.getEmail() == null || user.getEmail().trim().isEmpty()) {
             validateLiveData.setValue(new FailureResponse(
                     AppConstants.UIVALIDATIONS.EMAIL_EMPTY, ResourceUtil.getInstance()
                     .getString(R.string.message_enter_email)
             ));
             return false;
-        } else if (!Patterns.EMAIL_ADDRESS.matcher(user.getEmail()).matches()) {
+        } else if (!Patterns.EMAIL_ADDRESS.matcher(user.getEmail().trim()).matches()) {
             validateLiveData.setValue(new FailureResponse(
                     AppConstants.UIVALIDATIONS.INVALID_EMAIL, ResourceUtil.getInstance()
                     .getString(R.string.message_enter_valid_email)
             ));
             return false;
-        } else if (user.getPassword().isEmpty()) {
+        } else if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
             validateLiveData.setValue(new FailureResponse(
                     AppConstants.UIVALIDATIONS.PASSWORD_EMPTY, ResourceUtil.getInstance()
                     .getString(R.string.message_enter_password)
             ));
             return false;
-        } else if (user.getPassword().length() < 6) {
+        } else if (user.getPassword().trim().length() < 6) {
             validateLiveData.setValue(new FailureResponse(
                     AppConstants.UIVALIDATIONS.INVALID_PASSWORD, ResourceUtil.getInstance()
                     .getString(R.string.message_enter_valid_password)
             ));
             return false;
-        } else if (user.getPhone().isEmpty()) {
+        } else if (user.getPhone() == null || user.getPhone().trim().isEmpty()) {
             validateLiveData.setValue(new FailureResponse(
                     AppConstants.UIVALIDATIONS.PHONE_EMPTY, ResourceUtil.getInstance()
                     .getString(R.string.message_enter_phone)
             ));
             return false;
-        } else if (user.getPhone().length() < 10) {
+        } else if (user.getPhone().trim().length() < 10) {
             validateLiveData.setValue(new FailureResponse(
                     AppConstants.UIVALIDATIONS.INVALID_PHONE, ResourceUtil.getInstance()
                     .getString(R.string.message_enter_valid_phone)
             ));
         }
         return true;
-    }
-
-    public MutableLiveData<FailureResponse> getValidationLiveData() {
-        return validateLiveData;
     }
 }

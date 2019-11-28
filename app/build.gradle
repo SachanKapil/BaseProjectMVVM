@@ -5,8 +5,8 @@ android {
     buildToolsVersion "29.0.0"
     defaultConfig {
         applicationId "com.baseprojectmvvm"
-        minSdkVersion 23
-        targetSdkVersion 29
+        minSdkVersion 21
+        targetSdkVersion 28
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -16,6 +16,10 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
+    }
+
+    dataBinding {
+        enabled true
     }
 
     flavorDimensions "api"
@@ -79,12 +83,8 @@ dependencies {
     // ViewModel and LiveData
     implementation "androidx.lifecycle:lifecycle-extensions:2.1.0"
 
-    //ButterKnife
-    implementation 'com.jakewharton:butterknife:10.1.0'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.1.0'
-
     //Recycler_View
-    implementation 'androidx.recyclerview:recyclerview:1.0.0'
+    implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
     //Dimensions
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
@@ -93,6 +93,6 @@ dependencies {
     // Retrofit
     implementation 'com.squareup.retrofit2:retrofit:2.5.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.11.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.14.1'
 
 }

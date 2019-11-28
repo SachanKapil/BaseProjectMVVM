@@ -1,45 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
 
-    <androidx.appcompat.widget.LinearLayoutCompat
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+        <variable
+            name="loginFragment"
+            type="com.baseprojectmvvm.ui.onboarding.login.LoginFragment" />
+
+        <variable
+            name="viewModel"
+            type="com.baseprojectmvvm.ui.onboarding.login.LoginViewModel" />
+    </data>
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:orientation="vertical"
-        android:padding="10dp">
+        android:layout_height="match_parent">
 
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/et_email"
-            style="@style/EditTextStyle"
-            android:hint="@string/hint_email"
-            android:inputType="textEmailAddress"
-            android:maxLength="@integer/length_email" />
-
-        <androidx.appcompat.widget.AppCompatEditText
-            android:id="@+id/et_password"
-            style="@style/EditTextStyle"
-            android:hint="@string/hint_password"
-            android:inputType="textPassword"
-            android:maxLength="@integer/length_password" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/bt_login"
-            android:layout_width="wrap_content"
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:text="@string/action_login" />
+            android:layout_centerInParent="true"
+            android:orientation="vertical"
+            android:padding="10dp">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/bt_sign_up"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="20dp"
-            android:text="@string/action_signup" />
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/et_email"
+                style="@style/EditTextStyle"
+                android:hint="@string/hint_email"
+                android:text="@={viewModel.user.email}"
+                android:inputType="textEmailAddress"
+                android:maxLength="@integer/length_email" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.AppCompatEditText
+                android:id="@+id/et_password"
+                style="@style/EditTextStyle"
+                android:hint="@string/hint_password"
+                android:text="@={viewModel.user.password}"
+                android:inputType="textPassword"
+                android:maxLength="@integer/length_password" />
 
-</RelativeLayout>
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/bt_login"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:onClick="@{() -> viewModel.doLogIn()}"
+                android:text="@string/action_login" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/bt_sign_up"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="20dp"
+                android:onClick="@{() -> loginFragment.openSignUpFragment()}"
+                android:text="@string/action_signup" />
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+
+    </RelativeLayout>
+</layout>

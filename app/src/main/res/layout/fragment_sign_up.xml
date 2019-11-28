@@ -1,70 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:clickable="true"
-    android:focusable="true">
+<layout>
 
-    <androidx.core.widget.NestedScrollView
-        android:id="@+id/sv_sign_up"
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.baseprojectmvvm.ui.onboarding.signup.SignUpViewModel" />
+    </data>
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:clickable="true"
+        android:focusable="true">
 
-        <androidx.appcompat.widget.LinearLayoutCompat
+        <androidx.core.widget.NestedScrollView
+            android:id="@+id/sv_sign_up"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="10dp">
+            android:layout_height="wrap_content">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/iv_image"
-                android:layout_width="wrap_content"
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                android:scaleType="centerCrop"
-                android:src="@mipmap/ic_launcher" />
+                android:orientation="vertical"
+                android:padding="10dp">
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/et_name"
-                style="@style/EditTextStyle"
-                android:hint="@string/hint_name"
-                android:inputType="text"
-                android:maxLength="@integer/length_name" />
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/iv_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="10dp"
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/ic_launcher" />
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/et_email"
-                style="@style/EditTextStyle"
-                android:hint="@string/hint_email"
-                android:inputType="textEmailAddress"
-                android:maxLength="@integer/length_email" />
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/et_name"
+                    style="@style/EditTextStyle"
+                    android:hint="@string/hint_name"
+                    android:inputType="text"
+                    android:maxLength="@integer/length_name"
+                    android:text="@={viewModel.user.firstName}" />
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/et_password"
-                style="@style/EditTextStyle"
-                android:hint="@string/hint_password"
-                android:inputType="textPassword"
-                android:maxLength="@integer/length_password" />
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/et_email"
+                    style="@style/EditTextStyle"
+                    android:hint="@string/hint_email"
+                    android:inputType="textEmailAddress"
+                    android:maxLength="@integer/length_email"
+                    android:text="@={viewModel.user.email}" />
 
-            <androidx.appcompat.widget.AppCompatEditText
-                android:id="@+id/et_phone"
-                style="@style/EditTextStyle"
-                android:hint="@string/hint_number"
-                android:inputType="phone"
-                android:maxLength="@integer/length_phone" />
-        </androidx.appcompat.widget.LinearLayoutCompat>
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/et_password"
+                    style="@style/EditTextStyle"
+                    android:hint="@string/hint_password"
+                    android:inputType="textPassword"
+                    android:maxLength="@integer/length_password"
+                    android:text="@={viewModel.user.password}" />
 
-    </androidx.core.widget.NestedScrollView>
+                <androidx.appcompat.widget.AppCompatEditText
+                    android:id="@+id/et_phone"
+                    style="@style/EditTextStyle"
+                    android:hint="@string/hint_number"
+                    android:inputType="phone"
+                    android:maxLength="@integer/length_phone"
+                    android:text="@={viewModel.user.phone}" />
+            </androidx.appcompat.widget.LinearLayoutCompat>
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_signup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/sv_sign_up"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="20dp"
-        android:text="@string/action_signup" />
+        </androidx.core.widget.NestedScrollView>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_signup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/sv_sign_up"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="20dp"
+            android:onClick="@{() -> viewModel.doSignUp()}"
+            android:text="@string/action_signup" />
 
 
-</RelativeLayout>
+    </RelativeLayout>
+</layout>

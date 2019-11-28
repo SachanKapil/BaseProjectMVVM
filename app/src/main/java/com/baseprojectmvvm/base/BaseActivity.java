@@ -1,15 +1,20 @@
 package com.baseprojectmvvm.base;
 
 import android.content.Context;
-import android.os.Build;
+import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.webkit.CookieManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.LayoutRes;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.ViewDataBinding;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.baseprojectmvvm.R;
 import com.baseprojectmvvm.constant.AppConstants;
@@ -18,11 +23,28 @@ import com.baseprojectmvvm.data.model.FailureResponse;
 import com.baseprojectmvvm.util.AppUtils;
 import com.baseprojectmvvm.util.ResourceUtil;
 
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity<MyDataBinding extends ViewDataBinding> extends AppCompatActivity {
 
 
     private LoadingDialog mProgressDialog;
-    private BaseFragment activeFragment;
+    private MyDataBinding mViewDataBinding;
+
+    @LayoutRes
+    public abstract int getLayoutId();
+
+    @Override
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        performDataBinding();
+    }
+
+    private void performDataBinding() {
+        mViewDataBinding = DataBindingUtil.setContentView(this, getLayoutId());
+    }
+
+    public MyDataBinding getViewDataBinding() {
+        return mViewDataBinding;
+    }
 
 
     public void addFragment(int layoutResId, BaseFragment fragment, String tag) {
@@ -35,17 +57,7 @@ public class BaseActivity extends AppCompatActivity {
                     .commit();
     }
 
-    public void addFragmentWithStateLoss(int layoutResId, BaseFragment fragment, String tag) {
-        if (getSupportFragmentManager().findFragmentByTag(tag) == null)
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up,
-                            R.anim.slide_in_down, R.anim.slide_out_down)
-                    .add(layoutResId, fragment, tag)
-                    .commitAllowingStateLoss();
-    }
-
-    public void addFragmentWithBackstack(int layoutResId, BaseFragment fragment, String tag) {
+    public void addFragmentWithBackStack(int layoutResId, BaseFragment fragment, String tag) {
         if (getSupportFragmentManager().findFragmentByTag(tag) == null) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -57,7 +69,17 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public void addFragmentWithBackstackWithStateLoss(int layoutResId, BaseFragment fragment, String tag) {
+    public void addFragmentWithStateLoss(int layoutResId, BaseFragment fragment, String tag) {
+        if (getSupportFragmentManager().findFragmentByTag(tag) == null)
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up,
+                            R.anim.slide_in_down, R.anim.slide_out_down)
+                    .add(layoutResId, fragment, tag)
+                    .commitAllowingStateLoss();
+    }
+
+    public void addFragmentWithBackStackWithStateLoss(int layoutResId, BaseFragment fragment, String tag) {
         if (getSupportFragmentManager().findFragmentByTag(tag) == null) {
             getSupportFragmentManager()
                     .beginTransaction()
@@ -80,8 +102,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
 
-
-    public void replaceFragmentWithBackstack(int layoutResId, BaseFragment fragment, String tag) {
+    public void replaceFragmentWithBackStack(int layoutResId, BaseFragment fragment, String tag) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up,
@@ -91,7 +112,7 @@ public class BaseActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public void replaceFragmentWithBackstackWithStateLoss(int layoutResId, BaseFragment fragment, String tag) {
+    public void replaceFragmentWithBackStackWithStateLoss(int layoutResId, BaseFragment fragment, String tag) {
         getSupportFragmentManager()
                 .beginTransaction()
                 .setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up,
@@ -99,6 +120,16 @@ public class BaseActivity extends AppCompatActivity {
                 .replace(layoutResId, fragment, tag)
                 .addToBackStack(tag)
                 .commitAllowingStateLoss();
+    }
+
+    private Fragment getCurrentFragment() {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        if (fragmentManager.getBackStackEntryCount() > 0) {
+            String fragmentTag = fragmentManager.getBackStackEntryAt(fragmentManager.getBackStackEntryCount() - 1).getName();
+            Fragment currentFragment = fragmentManager.findFragmentByTag(fragmentTag);
+            return currentFragment;
+        } else
+            return null;
     }
 
 //    public void changeFragment(int layoutResId, BaseFragment myFragment, String tag) {
@@ -124,12 +155,18 @@ public class BaseActivity extends AppCompatActivity {
 //    }
 
 
-
     public void onFailure(FailureResponse failureResponse) {
-        showToastShort(failureResponse.getErrorMessage());
         if (failureResponse != null) {
             if (failureResponse.getErrorCode() == AppConstants.NetworkingConstants.UNAUTHORIZED) {
+                showToastShort(getString(R.string.message_session_expired));
                 logout();
+            } else if (failureResponse.getErrorCode() == AppConstants.NetworkingConstants.EMPTY_DATA_ERROR_CODE) {
+                showToastShort(getString(R.string.message_no_data_found));
+            } else if (failureResponse.getErrorCode() == AppConstants.NetworkingConstants.ACCOUNT_BLOCKED_CODE) {
+                showToastShort(getString(R.string.message_account_blocked));
+                logout();
+            } else {
+                showToastShort(failureResponse.getErrorMessage());
             }
         }
     }
@@ -165,9 +202,6 @@ public class BaseActivity extends AppCompatActivity {
             mProgressDialog.dismiss();
     }
 
-    /**
-     * Method used to get unique device id
-     */
     public String getDeviceId() {
         return AppUtils.getUniqueDeviceId(this);
     }
@@ -197,27 +231,9 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
-    public void doLogout() {
-//        PrefManager.getInstance().clearAllPrefsExceptTutorials();
-//        startActivity(new Intent(this, OnBoardActivity.class).putExtra("from", "home"));
-//        finish();
-        instaClearData();
-    }
-
-    private void instaClearData() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            CookieManager.getInstance().removeAllCookies(null);
-        } else {
-            CookieManager.getInstance().removeAllCookie();
-        }
-    }
-
 
     /**
      * hides keyboard onClick anywhere besides edit text
-     *
-     * @param ev
-     * @return
      */
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
