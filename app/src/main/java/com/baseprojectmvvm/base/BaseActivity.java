@@ -187,6 +187,10 @@ public abstract class BaseActivity<MyDataBinding extends ViewDataBinding> extend
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
+    public void showSnackBar(String message) {
+        AppUtils.showSnackBar(mViewDataBinding.getRoot(), message);
+    }
+
     public void showProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new LoadingDialog(this);

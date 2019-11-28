@@ -93,6 +93,12 @@ public abstract class BaseFragment<MyDataBinding extends ViewDataBinding> extend
         }
     }
 
+    public void showSnackBar(String message) {
+        if (mActivity != null) {
+            mActivity.showSnackBar(message);
+        }
+    }
+
     public void showProgressDialog() {
         if (mActivity != null)
             mActivity.showProgressDialog();

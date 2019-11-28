@@ -88,7 +88,7 @@ public class SignUpFragment extends BaseFragment<FragmentSignUpBinding> {
             public void onChanged(@Nullable FailureResponse failureResponse) {
                 hideProgressDialog();
                 if (failureResponse != null)
-                    showToastLong(failureResponse.getErrorMessage());
+                    showSnackBar(failureResponse.getErrorMessage());
                 //You can also handle validations differently on the basis of the codes here
                 /*switch (failureResponse.getErrorCode()){
                     case AppConstants.UIVALIDATIONS.EMAIL_EMPTY:

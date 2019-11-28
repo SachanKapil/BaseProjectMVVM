@@ -44,7 +44,7 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding> {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         mLoginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
-        mBinding =  getViewDataBinding();
+        mBinding = getViewDataBinding();
         mBinding.setViewModel(mLoginViewModel);
         mBinding.setLoginFragment(this);
         initObservers();
@@ -83,7 +83,7 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding> {
             public void onChanged(@Nullable FailureResponse failureResponse) {
                 hideProgressDialog();
                 if (failureResponse != null)
-                    showToastLong(failureResponse.getErrorMessage());
+                    showSnackBar(failureResponse.getErrorMessage());
                 //You can also handle validations differently on the basis of the codes here
                 /*switch (failureResponse.getErrorCode()){
                     case AppConstants.UIVALIDATIONS.EMAIL_EMPTY:

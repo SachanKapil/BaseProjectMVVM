@@ -23,11 +23,14 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.core.content.ContextCompat;
 
 import com.baseprojectmvvm.App;
 import com.baseprojectmvvm.R;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -199,6 +202,20 @@ public class AppUtils {
 
         alertPermissionSetting = builder.create();
         alertPermissionSetting.show();
+    }
+
+    /**
+     * used for showing the snackbar
+     */
+    public static Snackbar showSnackBar(View mSnackView, String message) {
+        Snackbar snackbar = Snackbar.make(mSnackView, message, Snackbar.LENGTH_SHORT);
+        // Changing text color
+        View sbView = snackbar.getView();
+        sbView.setBackgroundColor(ContextCompat.getColor(App.getAppContext(), R.color.black_30_alpha));
+        TextView textView = sbView.findViewById(R.id.snackbar_text);
+        textView.setTextColor(Color.WHITE);
+        snackbar.show();
+        return snackbar;
     }
 }
 
