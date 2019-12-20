@@ -17,6 +17,10 @@ import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+/**
+ * Created by kapil on 05/11/19.
+ */
+
 public class ApiManager {
 
     private static ApiManager instance;
