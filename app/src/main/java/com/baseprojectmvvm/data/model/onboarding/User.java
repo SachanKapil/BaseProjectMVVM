@@ -53,7 +53,7 @@ public class User {
     private String registeredDate;
     @SerializedName("token")
     @Expose
-    private String accesstoken;
+    private String accessToken;
     @SerializedName("image")
     @Expose
     private String image;
@@ -62,109 +62,10 @@ public class User {
     private String imageThumb;
     @SerializedName("user_id")
     @Expose
-    private Integer userid;
+    private Integer userId;
     @SerializedName("status")
     @Expose
     private String status;
-    @SerializedName("refresh_token")
-    @Expose
-    private String refreshToken;
-
-    @SerializedName("oldpassword")
-    @Expose
-    private String oldPassword;
-
-    private String device_id;
-
-    private String platform;
-
-    private String password;
-
-    private String device_token;
-
-
-    private String confirmPassword;
-
-
-    public User() {
-
-    }
-
-
-
-    public User(String firstName, String email, String password, String phone, String device_id, String device_token, String platform) {
-        this.phone = phone;
-        this.email = email;
-        this.firstName = firstName;
-        this.password = password;
-        this.device_id = device_id;
-        this.device_token = device_token;
-        this.platform = platform;
-    }
-
-    public User(String email, String password, String device_id, String platform, String device_token) {
-        this.email = email;
-        this.password = password;
-        this.device_id = device_id;
-        this.platform = platform;
-        this.device_token = device_token;
-    }
-
-    public String getOldPassword() {
-        return oldPassword;
-    }
-
-    public void setOldPassword(String oldPassword) {
-        this.oldPassword = oldPassword;
-    }
-
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
-
-    public String getRefreshToken() {
-        return refreshToken;
-    }
-
-    public void setRefreshToken(String refreshToken) {
-        this.refreshToken = refreshToken;
-    }
-
-    public String getDevice_token() {
-        return device_token;
-    }
-
-    public void setDevice_token(String device_token) {
-        this.device_token = device_token;
-    }
-
-    public String getDevice_id() {
-        return device_id;
-    }
-
-    public void setDevice_id(String device_id) {
-        this.device_id = device_id;
-    }
-
-    public String getPlatform() {
-        return platform;
-    }
-
-    public void setPlatform(String platform) {
-        this.platform = platform;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getMiddleName() {
         return middleName;
@@ -172,14 +73,6 @@ public class User {
 
     public void setMiddleName(String middleName) {
         this.middleName = middleName;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
     }
 
     public String getLastName() {
@@ -294,12 +187,12 @@ public class User {
         this.registeredDate = registeredDate;
     }
 
-    public String getAccesstoken() {
-        return accesstoken;
+    public String getAccessToken() {
+        return accessToken;
     }
 
-    public void setAccesstoken(String accesstoken) {
-        this.accesstoken = accesstoken;
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
     }
 
     public String getImage() {
@@ -318,12 +211,94 @@ public class User {
         this.imageThumb = imageThumb;
     }
 
-    public Integer getUserid() {
-        return userid;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public void setUserid(Integer userid) {
-        this.userid = userid;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
+    }
+
+    public String getOldPassword() {
+        return oldPassword;
+    }
+
+    public void setOldPassword(String oldPassword) {
+        this.oldPassword = oldPassword;
+    }
+
+    public String getDevice_id() {
+        return device_id;
+    }
+
+    public void setDevice_id(String device_id) {
+        this.device_id = device_id;
+    }
+
+    public String getPlatform() {
+        return platform;
+    }
+
+    public void setPlatform(String platform) {
+        this.platform = platform;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getDevice_token() {
+        return device_token;
+    }
+
+    public void setDevice_token(String device_token) {
+        this.device_token = device_token;
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
+    @SerializedName("refresh_token")
+    @Expose
+    private String refreshToken;
+
+    @SerializedName("oldpassword")
+    @Expose
+    private String oldPassword;
+
+    private String device_id;
+
+    private String platform;
+
+    private String password;
+
+    private String device_token;
+
+    private String confirmPassword;
 
 }

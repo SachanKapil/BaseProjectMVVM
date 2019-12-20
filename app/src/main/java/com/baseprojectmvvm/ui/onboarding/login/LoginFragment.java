@@ -18,9 +18,9 @@ import com.baseprojectmvvm.databinding.FragmentLoginBinding;
 
 public class LoginFragment extends BaseFragment<FragmentLoginBinding> {
 
-    private FragmentLoginBinding mBinding;
-    private ILoginHost mLoginHost;
-    private LoginViewModel mLoginViewModel;
+    private FragmentLoginBinding binding;
+    private ILoginHost loginHost;
+    private LoginViewModel loginViewModel;
 
     public static LoginFragment getInstance() {
         return new LoginFragment();
@@ -35,7 +35,7 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding> {
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         if (context instanceof ILoginHost) {
-            mLoginHost = (ILoginHost) context;
+            loginHost = (ILoginHost) context;
         } else
             throw new IllegalStateException("host must implement ILoginHost");
     }
@@ -43,17 +43,21 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding> {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        mLoginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
-        mBinding = getViewDataBinding();
-        mBinding.setViewModel(mLoginViewModel);
-        mBinding.setLoginFragment(this);
+        binding = getViewDataBinding();
+        binding.setViewModel(loginViewModel);
+        binding.setLoginFragment(this);
+        initViewModel();
         initObservers();
+    }
+
+    private void initViewModel() {
+        loginViewModel = ViewModelProviders.of(this).get(LoginViewModel.class);
     }
 
     private void initObservers() {
 
         //observing showProgressBar live data
-        mLoginViewModel.getShowProgressBarLiveData().observe(this, isStart -> {
+        loginViewModel.getShowProgressBarLiveData().observe(this, isStart -> {
             if (isStart) {
                 showProgressDialog();
             } else {
@@ -63,22 +67,20 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding> {
 
 
         //observing login live data
-        mLoginViewModel.getLoginLiveData().observe(getViewLifecycleOwner(), wrappedResponseEvent -> {
+        loginViewModel.getLoginLiveData().observe(getViewLifecycleOwner(), wrappedResponseEvent -> {
             if (wrappedResponseEvent != null && !wrappedResponseEvent.isAlreadyHandled()) {
                 hideProgressDialog();
                 WrappedResponse<User> objectWrappedResponse = wrappedResponseEvent.getContent();
                 if (objectWrappedResponse.getFailureResponse() != null) {
                     onFailure(objectWrappedResponse.getFailureResponse());
                 } else {
-                    User user = objectWrappedResponse.getData();
-                    showToastLong(getString(R.string.message_login_success));
-                    mLoginHost.openHomeActivity();
+                    loginHost.openHomeActivity();
                 }
             }
         });
 
         //observing validation live data
-        mLoginViewModel.getValidationLiveData().observe(this, new Observer<FailureResponse>() {
+        loginViewModel.getValidationLiveData().observe(this, new Observer<FailureResponse>() {
             @Override
             public void onChanged(@Nullable FailureResponse failureResponse) {
                 hideProgressDialog();
@@ -86,7 +88,7 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding> {
                     showSnackBar(failureResponse.getErrorMessage());
                 //You can also handle validations differently on the basis of the codes here
                 /*switch (failureResponse.getErrorCode()){
-                    case AppConstants.UIVALIDATIONS.EMAIL_EMPTY:
+                    case AppConstants.UiValidationConstants.EMAIL_EMPTY:
                         showToastLong(failureResponse.getErrorMessage());
                         break;
                 }*/
@@ -95,7 +97,7 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding> {
     }
 
     public void openSignUpFragment() {
-        mLoginHost.openSignUpFragment();
+        loginHost.openSignUpFragment();
     }
 
     public interface ILoginHost {

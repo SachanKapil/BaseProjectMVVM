@@ -30,7 +30,7 @@ public class PreferenceManager {
 
     public void putInt(String key, int value) {
         SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putLong(key, value);
+        editor.putInt(key, value);
         editor.apply();
     }
 
@@ -41,7 +41,7 @@ public class PreferenceManager {
     }
 
     public String getString(String key) {
-        return sharedPref.getString(key, null);
+        return sharedPref.getString(key, "");
     }
 
     public void putBoolean(String key, boolean value) {

@@ -3,19 +3,15 @@ package com.baseprojectmvvm.data.api;
 import androidx.annotation.NonNull;
 
 import com.baseprojectmvvm.BuildConfig;
-import com.baseprojectmvvm.constant.AppConstants;
 import com.baseprojectmvvm.data.DataManager;
 import com.baseprojectmvvm.data.model.BaseResponse;
 import com.baseprojectmvvm.data.model.onboarding.User;
 import com.google.gson.GsonBuilder;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Retrofit;
@@ -24,13 +20,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class ApiManager {
 
     private static ApiManager instance;
-    private static String versionNumber = BuildConfig.VERSION_NAME;
     private final ApiClient apiClient;
+    private final ApiClient apiRegisteredClient;
     private OkHttpClient.Builder httpClient;
+    private OkHttpClient.Builder httpRegisteredClient;
 
     private ApiManager() {
         httpClient = getHttpClient();
-        apiClient = getRetrofitService();
+        httpRegisteredClient = getHttpRegisteredClient();
+        apiClient = getApiClient();
+        apiRegisteredClient = getApiRegisteredClient();
     }
 
     public static synchronized ApiManager getInstance() {
@@ -40,30 +39,54 @@ public class ApiManager {
         return instance;
     }
 
+    private ApiClient getApiClient() {
+        Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
+                .baseUrl(BuildConfig.API_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()));
+        Retrofit retrofit = retrofitBuilder.client(httpClient.build()).build();
+        return retrofit.create(ApiClient.class);
+    }
+
+    private ApiClient getApiRegisteredClient() {
+        Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
+                .baseUrl(BuildConfig.API_BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()));
+        Retrofit retrofit = retrofitBuilder.client(httpRegisteredClient.build()).build();
+        return retrofit.create(ApiClient.class);
+    }
+
+
     private OkHttpClient.Builder getHttpClient() {
         return new OkHttpClient.Builder()
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        Request original = chain.request();
-                        Request.Builder requestBuilder;
-                        requestBuilder = original.newBuilder()
+                .addInterceptor(chain -> {
+                    Request original = chain.request();
+                    Request.Builder requestBuilder;
+                    requestBuilder = original.newBuilder()
+                            .method(original.method(), original.body());
+                    requestBuilder.header("Authorization", "Bearer " + DataManager.getInstance().getAccessToken())
+                            .header("Accept", "application/json");
 
-                                .method(original.method(), original.body());
-//                        if (CacheManager.getInstance().getUserCreadential() != null) {
-//                            requestBuilder.header("username",
-//                                    CacheManager.getInstance().getUserCreadential().getUsername())
-//                                    .header("password",
-//                                            CacheManager.getInstance().getUserCreadential().getPassword());
-//                        }
-                        requestBuilder.header("Authorization", "Bearer " + DataManager.getInstance().getAccessToken())
-                                .header("Accept", "application/json")
-                                .header("platform", "2")
-                                .header("versionnumber", versionNumber);
+                    Request request = requestBuilder.build();
+                    return chain.proceed(request);
+                })
+                .addInterceptor(getLoggingInterceptor())
+                .readTimeout(35000, TimeUnit.MILLISECONDS)
+                .writeTimeout(20000, TimeUnit.MILLISECONDS);
+    }
 
-                        Request request = requestBuilder.build();
-                        return chain.proceed(request);
-                    }
+    private OkHttpClient.Builder getHttpRegisteredClient() {
+        return new OkHttpClient.Builder()
+                .addInterceptor(chain -> {
+                    Request original = chain.request();
+                    Request.Builder requestBuilder;
+                    requestBuilder = original.newBuilder()
+                            .method(original.method(), original.body());
+                    requestBuilder
+                            .header("Authorization", "Bearer " + DataManager.getInstance().getAccessToken())
+                            .header("Accept", "application/json");
+
+                    Request request = requestBuilder.build();
+                    return chain.proceed(request);
                 })
                 .addInterceptor(getLoggingInterceptor())
                 .readTimeout(35000, TimeUnit.MILLISECONDS)
@@ -78,13 +101,6 @@ public class ApiManager {
         else return new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.NONE);
     }
 
-    private ApiClient getRetrofitService() {
-        Retrofit.Builder retrofitBuilder = new Retrofit.Builder()
-                .baseUrl(AppConstants.BASE_URL)
-                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().create()));
-        Retrofit retrofit = retrofitBuilder.client(httpClient.build()).build();
-        return retrofit.create(ApiClient.class);
-    }
 
     public Call<BaseResponse<User>> hitLoginApi(User user) {
         return apiClient.login(user);
@@ -94,4 +110,11 @@ public class ApiManager {
         return apiClient.signUp(user);
     }
 
+    public Call<BaseResponse<Object>> hitForgotPasswordApi(String email) {
+        return apiRegisteredClient.forgotPassword(email);
+    }
+
+    public Call<BaseResponse<Object>> hitLogOutApi() {
+        return apiRegisteredClient.logOut();
+    }
 }

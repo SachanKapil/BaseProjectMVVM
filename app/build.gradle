@@ -22,48 +22,19 @@ android {
         enabled true
     }
 
-    flavorDimensions "api"
+    flavorDimensions "appinventiv"
     productFlavors {
         development {
             def API_BASE_URL = '"http://rccapi.appinventive.com/"'
             buildConfigField "String", "API_BASE_URL", API_BASE_URL
-//            def WEB_BASE_URL = '"http://hairinadmindev.appinventive.com/"'
-//            buildConfigField "String", "WEB_BASE_URL", WEB_BASE_URL
-//            def FIREBASE_SERVER_KEY = '"key=AIzaSyCM1-zZUz-zc1ZKsQ4ioGrgxmf6GyS_b1E"'
-//            buildConfigField "String", "FIREBASE_SERVER_KEY", FIREBASE_SERVER_KEY
-//            resValue "string", "DEEP_LINK_URL", "hairinfernodev.appinventive.com"
-//            def STRIPE_PUBLISH_KEY = '"pk_test_E3yIimXP37G2sJIFI2dJTkYJ00CL9NRwez"'
-//            buildConfigField "String", "STRIPE_PUBLISH_KEY", STRIPE_PUBLISH_KEY
-//            def SUBSCRIPTION_CLIENT_ID = '"ca_F11GwcJ28dr5Ianl2VtVtd21xqk1QhU2"'
-//            buildConfigField "String", "SUBSCRIPTION_CLIENT_ID", SUBSCRIPTION_CLIENT_ID
-
         }
         staging {
-            def API_BASE_URL = '"http://hairinfernost.appinventive.com/"'
+            def API_BASE_URL = '"http://rccapi.appinventive.com/"'
             buildConfigField "String", "API_BASE_URL", API_BASE_URL
-//            def WEB_BASE_URL = '"http://hairinadminst.appinventive.com/"'
-//            buildConfigField "String", "WEB_BASE_URL", WEB_BASE_URL
-//            def FIREBASE_SERVER_KEY = '"key=AIzaSyB6By_zDwOQSunhmQJlVIDQwtX8rmrfdcc"'
-//            buildConfigField "String", "FIREBASE_SERVER_KEY", FIREBASE_SERVER_KEY
-//            resValue "string", "DEEP_LINK_URL", "hairinfernost.appinventive.com"
-//            def STRIPE_PUBLISH_KEY = '"pk_test_E3yIimXP37G2sJIFI2dJTkYJ00CL9NRwez"'
-//            buildConfigField "String", "STRIPE_PUBLISH_KEY", STRIPE_PUBLISH_KEY
-//            def SUBSCRIPTION_CLIENT_ID = '"ca_F11GwcJ28dr5Ianl2VtVtd21xqk1QhU2"'
-//            buildConfigField "String", "SUBSCRIPTION_CLIENT_ID", SUBSCRIPTION_CLIENT_ID
-
         }
         live {
-            def API_BASE_URL = '"https://api.hairinferno.com/"'
+            def API_BASE_URL = '"http://rccapi.appinventive.com/"'
             buildConfigField "String", "API_BASE_URL", API_BASE_URL
-//            def WEB_BASE_URL = '"https://panel.hairinferno.com/"'
-//            buildConfigField "String", "WEB_BASE_URL", WEB_BASE_URL
-//            def FIREBASE_SERVER_KEY = '"key=AIzaSyB6By_zDwOQSunhmQJlVIDQwtX8rmrfdcc"'
-//            buildConfigField "String", "FIREBASE_SERVER_KEY", FIREBASE_SERVER_KEY
-//            resValue "string", "DEEP_LINK_URL", "api.hairinferno.com"
-//            def STRIPE_PUBLISH_KEY = '"pk_live_LOIQa4SWe0wZU9y8bkQQdmbg004AezgrK1"'
-//            buildConfigField "String", "STRIPE_PUBLISH_KEY", STRIPE_PUBLISH_KEY
-//            def SUBSCRIPTION_CLIENT_ID = '"ca_F11GGKZlECCg0S5ElfgecfswUEIwdRC1"'
-//            buildConfigField "String", "SUBSCRIPTION_CLIENT_ID", SUBSCRIPTION_CLIENT_ID
         }
     }
     compileOptions {
@@ -98,4 +69,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation 'com.squareup.okhttp3:logging-interceptor:3.14.1'
 
+    //Glide
+    implementation 'com.github.bumptech.glide:glide:4.9.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.9.0'
 }

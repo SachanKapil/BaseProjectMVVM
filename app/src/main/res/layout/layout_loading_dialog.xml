@@ -4,11 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.baseprojectmvvm.customview.loadindicator.IndicatorView        android:id="@+id/indicator_view"
+    <com.baseprojectmvvm.customview.loadindicator.IndicatorView
+        android:id="@+id/indicator_view"
         android:layout_width="@dimen/_35sdp"
         android:layout_height="@dimen/_35sdp"
         android:layout_centerInParent="true"
-        app:indicatorColor="@color/white"
+        app:indicatorColor="@color/black"
         app:indicatorName="com.baseprojectmvvm.customview.loadindicator.BallSpinFadeLoaderIndicator" />
 
 </RelativeLayout>

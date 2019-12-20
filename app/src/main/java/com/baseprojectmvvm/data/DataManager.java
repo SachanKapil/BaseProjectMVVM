@@ -17,13 +17,11 @@ public class DataManager {
     private static DataManager instance;
     private ApiManager apiManager;
     private PreferenceManager mPrefManager;
-//    private FirebaseDatabaseQueries mFirebaseQueries;
 
 
     private DataManager(Context context) {
         //Initializing SharedPreference object
         mPrefManager = PreferenceManager.getInstance(context);
-//        mFirebaseQueries = FirebaseDatabaseQueries.getInstance(context);
     }
 
     /**
@@ -59,7 +57,6 @@ public class DataManager {
         apiManager = ApiManager.getInstance();
     }
 
-
     public String getRefreshToken() {
         return mPrefManager.getString(AppConstants.PreferenceConstants.REFRESH_TOKEN);
     }
@@ -68,23 +65,30 @@ public class DataManager {
         mPrefManager.putString(AppConstants.PreferenceConstants.REFRESH_TOKEN, refreshToken);
     }
 
-    public void saveAccessToken(String accessToken) {
-        mPrefManager.putString(AppConstants.PreferenceConstants.ACCESS_TOKEN, accessToken);
+    public String getUserName() {
+        return mPrefManager.getString(AppConstants.PreferenceConstants.USER_NAME);
     }
-
 
     public String getAccessToken() {
         return mPrefManager.getString(AppConstants.PreferenceConstants.ACCESS_TOKEN);
     }
 
-
-    public void clearPreferences() {
-        mPrefManager.clearAllPrefs();
+    public void saveAccessToken(String accessToken) {
+        mPrefManager.putString(AppConstants.PreferenceConstants.ACCESS_TOKEN, accessToken);
     }
 
+    public void saveUserDetails(User user) {
+        //save user name differently
+        mPrefManager.putString(AppConstants.PreferenceConstants.USER_NAME, user.getFirstName());
+        String userDetail = new Gson().toJson(user);
+        mPrefManager.putString(AppConstants.PreferenceConstants.USER_DETAILS, userDetail);
+    }
 
     public String getDeviceToken() {
-        return mPrefManager.getString(AppConstants.PreferenceConstants.DEVICE_TOKEN);
+        String deviceToken = "12345";
+        if (!mPrefManager.getString(AppConstants.PreferenceConstants.DEVICE_TOKEN).isEmpty())
+            deviceToken = mPrefManager.getString(AppConstants.PreferenceConstants.DEVICE_TOKEN);
+        return deviceToken;
     }
 
     public void saveDeviceToken(String deviceToken) {
@@ -99,33 +103,24 @@ public class DataManager {
         mPrefManager.putString(AppConstants.PreferenceConstants.DEVICE_ID, deviceId);
     }
 
-    public void saveUserId(Integer userId) {
-        mPrefManager.putString(AppConstants.PreferenceConstants.USER_ID, String.valueOf(userId));
-    }
-
-    public String getUserId() {
-        return mPrefManager.getString(AppConstants.PreferenceConstants.USER_ID);
-    }
-
-    public void saveUserDetails(User user) {
-        //save user name differently
-        mPrefManager.putString(AppConstants.PreferenceConstants.USER_NAME, user.getFirstName());
-        String userDetail = new Gson().toJson(user);
-        mPrefManager.putString(AppConstants.PreferenceConstants.USER_DETAILS, userDetail);
+    public void clearPreferences() {
+        mPrefManager.clearAllPrefs();
     }
 
     public Call<BaseResponse<User>> hitLoginApi(User user) {
         return apiManager.hitLoginApi(user);
     }
+
     public Call<BaseResponse<User>> hitSignUpApi(User user) {
         return apiManager.hitSignUpApi(user);
     }
 
-//    public User getUserDetails() {
-//        User userDetail;
-//        String details = mPrefManager.getString(AppConstants.PreferenceConstants.USER_DETAILS);
-//        userDetail = new Gson().fromJson(details, User.class);
-//        return userDetail;
-//    }
+    public Call<BaseResponse<Object>> hitForgotPasswordApi(String email) {
+        return apiManager.hitForgotPasswordApi(email);
+    }
+
+    public Call<BaseResponse<Object>> hitLogOutApi() {
+        return apiManager.hitLogOutApi();
+    }
 
 }

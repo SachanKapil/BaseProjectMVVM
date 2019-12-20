@@ -67,7 +67,7 @@ public class SignUpFragment extends BaseFragment<FragmentSignUpBinding> {
             }
         });
 
-        //observing login live data
+        //observing sign up live data
         mSignUpViewModel.getSignUpLiveData().observe(getViewLifecycleOwner(), wrappedResponseEvent -> {
             if (wrappedResponseEvent != null && !wrappedResponseEvent.isAlreadyHandled()) {
                 hideProgressDialog();
@@ -75,8 +75,6 @@ public class SignUpFragment extends BaseFragment<FragmentSignUpBinding> {
                 if (objectWrappedResponse.getFailureResponse() != null) {
                     onFailure(objectWrappedResponse.getFailureResponse());
                 } else {
-                    User user = objectWrappedResponse.getData();
-                    showToastLong(getString(R.string.message_login_success));
                     mSignUpHost.openHomeActivity();
                 }
             }
@@ -91,7 +89,7 @@ public class SignUpFragment extends BaseFragment<FragmentSignUpBinding> {
                     showSnackBar(failureResponse.getErrorMessage());
                 //You can also handle validations differently on the basis of the codes here
                 /*switch (failureResponse.getErrorCode()){
-                    case AppConstants.UIVALIDATIONS.EMAIL_EMPTY:
+                    case AppConstants.UiValidationConstants.EMAIL_EMPTY:
                         showToastLong(failureResponse.getErrorMessage());
                         break;
                 }*/

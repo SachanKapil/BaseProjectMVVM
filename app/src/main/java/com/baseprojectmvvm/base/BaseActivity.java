@@ -1,6 +1,7 @@
 package com.baseprojectmvvm.base;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,10 +17,13 @@ import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.baseprojectmvvm.App;
 import com.baseprojectmvvm.R;
 import com.baseprojectmvvm.constant.AppConstants;
 import com.baseprojectmvvm.customview.loadindicator.LoadingDialog;
+import com.baseprojectmvvm.data.DataManager;
 import com.baseprojectmvvm.data.model.FailureResponse;
+import com.baseprojectmvvm.ui.onboarding.OnBoardActivity;
 import com.baseprojectmvvm.util.AppUtils;
 import com.baseprojectmvvm.util.ResourceUtil;
 
@@ -172,11 +176,11 @@ public abstract class BaseActivity<MyDataBinding extends ViewDataBinding> extend
     }
 
     public void logout() {
-//        DataManager.getInstance().clearPreferences();
-//        Intent intent = new Intent(App.getAppContext(), WelcomeActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-//        startActivity(intent);
-//        finish();
+        DataManager.getInstance().clearPreferences();
+        Intent intent = new Intent(App.getAppContext(), OnBoardActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+        finish();
     }
 
     public void showToastLong(CharSequence message) {

@@ -18,9 +18,6 @@ import java.util.Objects;
 
 public class PermissionHelper {
 
-    /**
-     * A {@link Activity} object to get the context of the Activity from where it is called
-     */
     private Activity mActivity;
 
     /**
@@ -105,60 +102,70 @@ public class PermissionHelper {
 
         switch (requestCode) {
             case AppConstants.PermissionConstants.REQ_CODE_GALLERY:
+
                 //If user denies the READ external storage permission with don't ask again , then this variable will be true
-                boolean isStorage = !ActivityCompat.shouldShowRequestPermissionRationale(mActivity, permissions[0]) &&
-                        ContextCompat.checkSelfPermission(mActivity, permissions[0]) != PackageManager.PERMISSION_GRANTED;
+                boolean isGalleryStorage = shouldShowRequest(permissions[0]);
+
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     //if permission granted
                     mGetPermissionListener.permissionGiven(AppConstants.PermissionConstants.REQ_CODE_GALLERY);
-                } else if (isStorage) {
-                    //Open settings if isStorage is true
+                } else if (isGalleryStorage) {
                     AppUtils.showAllowPermissionFromSettingDialog(mActivity, mActivity.getString(R.string.enable_storage_permission));
                 }
                 break;
 
             case AppConstants.PermissionConstants.REQ_CODE_CAMERA:
+
                 //If user denies the CAMERA permission with don't ask again checkbox,then this variable will be true
-                boolean isRationalCamera = !ActivityCompat.shouldShowRequestPermissionRationale(mActivity, permissions[0]) &&
-                        ContextCompat.checkSelfPermission(mActivity, permissions[0]) != PackageManager.PERMISSION_GRANTED;
+                boolean isCamera = shouldShowRequest(permissions[0]);
                 //If user denies the WRITE permission with don't ask again checkbox,then this variable will be true
-                boolean isRationalStorage = !ActivityCompat.shouldShowRequestPermissionRationale(mActivity, permissions[1]) &&
-                        ContextCompat.checkSelfPermission(mActivity, permissions[1]) != PackageManager.PERMISSION_GRANTED;
+                boolean isStorage = shouldShowRequest(permissions[1]);
 
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
                         && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
                     //if permission granted
                     mGetPermissionListener.permissionGiven(AppConstants.PermissionConstants.REQ_CODE_CAMERA);
 
-                } else if (isRationalCamera) {
+                } else if (isCamera && isStorage) {
+                    AppUtils.showAllowPermissionFromSettingDialog(mActivity, mActivity.getString(R.string.enable_storage_camera_permission));
+                } else if (isCamera) {
                     AppUtils.showAllowPermissionFromSettingDialog(mActivity, mActivity.getString(R.string.enable_camera_permission));
-                } else if (isRationalStorage) {
+                } else if (isStorage) {
                     AppUtils.showAllowPermissionFromSettingDialog(mActivity, mActivity.getString(R.string.enable_storage_permission));
                 }
                 break;
 
-            case AppConstants.PermissionConstants.REQ_CODE_CAMERA_VIDEO:
-                boolean isCamera = !ActivityCompat.shouldShowRequestPermissionRationale(mActivity, permissions[0]) &&
-                        ContextCompat.checkSelfPermission(mActivity, permissions[0]) != PackageManager.PERMISSION_GRANTED;
-                boolean isExternalStorage = !ActivityCompat.shouldShowRequestPermissionRationale(mActivity, permissions[2]) &&
-                        ContextCompat.checkSelfPermission(mActivity, permissions[2]) != PackageManager.PERMISSION_GRANTED;
-                boolean isRecordAudio = !ActivityCompat.shouldShowRequestPermissionRationale(mActivity, permissions[3]) &&
-                        ContextCompat.checkSelfPermission(mActivity, permissions[3]) != PackageManager.PERMISSION_GRANTED;
-                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults[1] == PackageManager.PERMISSION_GRANTED
-                        && grantResults[2] == PackageManager.PERMISSION_GRANTED && grantResults[3] == PackageManager.PERMISSION_GRANTED) {
-                    mGetPermissionListener.permissionGiven(AppConstants.PermissionConstants.REQ_CODE_CAMERA_VIDEO);
-                } else if (isCamera) {
-                    AppUtils.showAllowPermissionFromSettingDialog(mActivity, mActivity.getString(R.string.enable_camera_permission));
-                } else if (isExternalStorage) {
-                    AppUtils.showAllowPermissionFromSettingDialog(mActivity, mActivity.getString(R.string.enable_storage_permission));
-                } else if (isRecordAudio) {
-                    AppUtils.showAllowPermissionFromSettingDialog(mActivity, mActivity.getString(R.string.enable_audio_permission));
-                }
+            case AppConstants.PermissionConstants.REQ_CODE_CAMERA_GALLERY:
 
+                //If user denies the READ external storage permission with don't ask again , then this variable will be true
+                boolean isReadAllow = shouldShowRequest(permissions[0]);
+
+                //If user denies the CAMERA permission with don't ask again checkbox,then this variable will be true
+                boolean isCameraAllow = shouldShowRequest(permissions[1]);
+
+                //If user denies the WRITE permission with don't ask again checkbox,then this variable will be true
+                boolean isWriteAllow = shouldShowRequest(permissions[2]);
+
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED
+                        && grantResults[1] == PackageManager.PERMISSION_GRANTED) {
+                    //if permission granted
+                    mGetPermissionListener.permissionGiven(AppConstants.PermissionConstants.REQ_CODE_CAMERA);
+
+                } else if (isReadAllow) {
+                    AppUtils.showAllowPermissionFromSettingDialog(mActivity, mActivity.getString(R.string.enable_storage_permission));
+                } else if (isCameraAllow) {
+                    AppUtils.showAllowPermissionFromSettingDialog(mActivity, mActivity.getString(R.string.enable_camera_permission));
+                } else if (isWriteAllow) {
+                    AppUtils.showAllowPermissionFromSettingDialog(mActivity, mActivity.getString(R.string.enable_storage_permission));
+                }
                 break;
         }
     }
 
+    private boolean shouldShowRequest(String permission) {
+        return !ActivityCompat.shouldShowRequestPermissionRationale(mActivity, permission) &&
+                ContextCompat.checkSelfPermission(mActivity, permission) != PackageManager.PERMISSION_GRANTED;
+    }
 
     /**
      * This interface is used to get the user permission callback to the activity or fragment who
@@ -168,7 +175,6 @@ public class PermissionHelper {
 
         void permissionGiven(int requestCode);
 
-        void permissionDenied();
     }
 
 }

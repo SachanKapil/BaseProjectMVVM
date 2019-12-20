@@ -15,18 +15,19 @@ import com.baseprojectmvvm.data.model.Event;
 import com.baseprojectmvvm.data.model.FailureResponse;
 import com.baseprojectmvvm.data.model.WrappedResponse;
 import com.baseprojectmvvm.data.model.onboarding.User;
+import com.baseprojectmvvm.ui.onboarding.OnboardingRepo;
 import com.baseprojectmvvm.util.ResourceUtil;
 
 public class SignUpViewModel extends ViewModel {
 
     public User user = new User();
-    private SignUpRepo signUpRepo = new SignUpRepo();
+    private OnboardingRepo repo = new OnboardingRepo();
 
     private MutableLiveData<Boolean> showProgressBarLiveData = new MutableLiveData<>();
     private MutableLiveData<FailureResponse> validateLiveData = new MutableLiveData<>();
     private MutableLiveData<User> signUpLiveData = new MutableLiveData<>();
     private LiveData<Event<WrappedResponse<User>>> signUpResponseLiveData
-            = Transformations.switchMap(signUpLiveData, request -> signUpRepo.hitSignUpApi(request));
+            = Transformations.switchMap(signUpLiveData, request -> repo.hitSignUpApi(request));
 
     // This method gives the show progressbar live data object
     MutableLiveData<Boolean> getShowProgressBarLiveData() {
@@ -58,49 +59,49 @@ public class SignUpViewModel extends ViewModel {
     private boolean checkValidation(User user) {
         if (user.getFirstName() == null || user.getFirstName().trim().isEmpty()) {
             validateLiveData.setValue(new FailureResponse(
-                    AppConstants.UIVALIDATIONS.NAME_EMPTY, ResourceUtil.getInstance()
+                    AppConstants.UiValidationConstants.NAME_EMPTY, ResourceUtil.getInstance()
                     .getString(R.string.message_enter_name)
             ));
             return false;
         } else if (!user.getFirstName().trim().matches("[a-z A-Z]*")) {
             validateLiveData.setValue(new FailureResponse(
-                    AppConstants.UIVALIDATIONS.INVALID_NAME, ResourceUtil.getInstance()
+                    AppConstants.UiValidationConstants.INVALID_NAME, ResourceUtil.getInstance()
                     .getString(R.string.message_enter_valid_name)
             ));
             return false;
         } else if (user.getEmail() == null || user.getEmail().trim().isEmpty()) {
             validateLiveData.setValue(new FailureResponse(
-                    AppConstants.UIVALIDATIONS.EMAIL_EMPTY, ResourceUtil.getInstance()
+                    AppConstants.UiValidationConstants.EMAIL_EMPTY, ResourceUtil.getInstance()
                     .getString(R.string.message_enter_email)
             ));
             return false;
         } else if (!Patterns.EMAIL_ADDRESS.matcher(user.getEmail().trim()).matches()) {
             validateLiveData.setValue(new FailureResponse(
-                    AppConstants.UIVALIDATIONS.INVALID_EMAIL, ResourceUtil.getInstance()
+                    AppConstants.UiValidationConstants.INVALID_EMAIL, ResourceUtil.getInstance()
                     .getString(R.string.message_enter_valid_email)
             ));
             return false;
         } else if (user.getPassword() == null || user.getPassword().trim().isEmpty()) {
             validateLiveData.setValue(new FailureResponse(
-                    AppConstants.UIVALIDATIONS.PASSWORD_EMPTY, ResourceUtil.getInstance()
+                    AppConstants.UiValidationConstants.PASSWORD_EMPTY, ResourceUtil.getInstance()
                     .getString(R.string.message_enter_password)
             ));
             return false;
         } else if (user.getPassword().trim().length() < 6) {
             validateLiveData.setValue(new FailureResponse(
-                    AppConstants.UIVALIDATIONS.INVALID_PASSWORD, ResourceUtil.getInstance()
+                    AppConstants.UiValidationConstants.INVALID_PASSWORD, ResourceUtil.getInstance()
                     .getString(R.string.message_enter_valid_password)
             ));
             return false;
         } else if (user.getPhone() == null || user.getPhone().trim().isEmpty()) {
             validateLiveData.setValue(new FailureResponse(
-                    AppConstants.UIVALIDATIONS.PHONE_EMPTY, ResourceUtil.getInstance()
+                    AppConstants.UiValidationConstants.PHONE_EMPTY, ResourceUtil.getInstance()
                     .getString(R.string.message_enter_phone)
             ));
             return false;
         } else if (user.getPhone().trim().length() < 10) {
             validateLiveData.setValue(new FailureResponse(
-                    AppConstants.UIVALIDATIONS.INVALID_PHONE, ResourceUtil.getInstance()
+                    AppConstants.UiValidationConstants.INVALID_PHONE, ResourceUtil.getInstance()
                     .getString(R.string.message_enter_valid_phone)
             ));
         }

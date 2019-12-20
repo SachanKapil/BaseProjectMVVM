@@ -3,6 +3,7 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <data>
+
         <variable
             name="loginFragment"
             type="com.baseprojectmvvm.ui.onboarding.login.LoginFragment" />
@@ -27,24 +28,24 @@
                 android:id="@+id/et_email"
                 style="@style/EditTextStyle"
                 android:hint="@string/hint_email"
-                android:text="@={viewModel.user.email}"
                 android:inputType="textEmailAddress"
-                android:maxLength="@integer/length_email" />
+                android:maxLength="@integer/length_email"
+                android:text="@={viewModel.user.email}" />
 
             <androidx.appcompat.widget.AppCompatEditText
                 android:id="@+id/et_password"
                 style="@style/EditTextStyle"
                 android:hint="@string/hint_password"
-                android:text="@={viewModel.user.password}"
                 android:inputType="textPassword"
-                android:maxLength="@integer/length_password" />
+                android:maxLength="@integer/length_password"
+                android:text="@={viewModel.user.password}" />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/bt_login"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:onClick="@{() -> viewModel.doLogIn()}"
                 android:text="@string/action_login" />
 
@@ -53,9 +54,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:onClick="@{() -> loginFragment.openSignUpFragment()}"
                 android:text="@string/action_signup" />
+
+            <!--            <androidx.appcompat.widget.AppCompatTextView-->
+            <!--                android:id="@+id/tv_forgot_password"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_gravity="center_horizontal"-->
+            <!--                android:layout_marginTop="@dimen/_10sdp"-->
+            <!--                android:onClick="@{() -> loginFragment.openForgotPasswordFragment()}"-->
+            <!--                android:text="@string/action_forgot_password"-->
+            <!--                android:textColor="@color/black" />-->
 
         </androidx.appcompat.widget.LinearLayoutCompat>
 
