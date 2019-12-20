@@ -31,8 +31,7 @@ public abstract class NetworkCallback<T> implements Callback<BaseResponse<T>> {
     @Override
     public void onResponse(Call<BaseResponse<T>> call, Response<BaseResponse<T>> response) {
         if (response.isSuccessful()
-                && response.body() != null
-                && response.body().getMessage().equalsIgnoreCase("success")) {
+                && response.body() != null) {
             onSuccess(response.body().getData());
         } else {
             FailureResponse failureErrorBody = null;
@@ -86,9 +85,7 @@ public abstract class NetworkCallback<T> implements Callback<BaseResponse<T>> {
         if (body.errorBody() != null) {
             String errorResponse = body.errorBody().string();
             JSONObject jsonObj = new JSONObject(errorResponse);
-            failureResponse.setErrorMessage(jsonObj.getString("message"));
-        } else if (body.body() != null) {
-            failureResponse.setErrorMessage(body.body().getMessage());
+            failureResponse.setErrorMessage(jsonObj.getString("MESSAGE"));
         }
         return failureResponse;
     }

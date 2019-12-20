@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProviders;
 import com.baseprojectmvvm.R;
 import com.baseprojectmvvm.base.BaseActivity;
 import com.baseprojectmvvm.constant.AppConstants;
+import com.baseprojectmvvm.data.DataManager;
 import com.baseprojectmvvm.databinding.ActivitySplashBinding;
 import com.baseprojectmvvm.ui.home.HomeActivity;
 import com.baseprojectmvvm.ui.onboarding.OnBoardActivity;

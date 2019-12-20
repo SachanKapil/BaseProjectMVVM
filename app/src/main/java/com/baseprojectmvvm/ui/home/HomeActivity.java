@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.baseprojectmvvm.R;
 import com.baseprojectmvvm.base.BaseActivity;
+import com.baseprojectmvvm.data.DataManager;
 import com.baseprojectmvvm.data.model.WrappedResponse;
 import com.baseprojectmvvm.databinding.ActivityHomeBinding;
 
@@ -26,10 +27,16 @@ public class HomeActivity extends BaseActivity<ActivityHomeBinding> {
         binding = getViewDataBinding();
         binding.setViewModel(homeViewModel);
         initObservers();
+        setUpUi();
     }
 
     private void initViewModel() {
         homeViewModel = ViewModelProviders.of(this).get(HomeViewModel.class);
+    }
+
+    private void setUpUi() {
+        binding.tvName.setText(DataManager.getInstance().getUserDetails().getFirstName());
+        binding.tvEmail.setText(DataManager.getInstance().getUserDetails().getEmail());
     }
 
     private void initObservers() {

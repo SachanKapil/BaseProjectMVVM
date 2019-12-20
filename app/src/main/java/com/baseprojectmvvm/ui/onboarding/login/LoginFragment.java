@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.baseprojectmvvm.R;
 import com.baseprojectmvvm.base.BaseFragment;
+import com.baseprojectmvvm.data.DataManager;
 import com.baseprojectmvvm.data.model.FailureResponse;
 import com.baseprojectmvvm.data.model.WrappedResponse;
 import com.baseprojectmvvm.data.model.onboarding.User;
@@ -43,10 +44,11 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding> {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        DataManager.getInstance().saveDeviceId(getDeviceId());
+        initViewModel();
         binding = getViewDataBinding();
         binding.setViewModel(loginViewModel);
         binding.setLoginFragment(this);
-        initViewModel();
         initObservers();
     }
 
@@ -64,7 +66,6 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding> {
                 hideProgressDialog();
             }
         });
-
 
         //observing login live data
         loginViewModel.getLoginLiveData().observe(getViewLifecycleOwner(), wrappedResponseEvent -> {

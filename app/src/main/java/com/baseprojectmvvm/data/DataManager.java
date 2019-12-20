@@ -84,6 +84,12 @@ public class DataManager {
         mPrefManager.putString(AppConstants.PreferenceConstants.USER_DETAILS, userDetail);
     }
 
+    public User getUserDetails() {
+        String userDetail = mPrefManager.getString(AppConstants.PreferenceConstants.USER_DETAILS);
+        User user = new Gson().fromJson(userDetail, User.class);
+        return user;
+    }
+
     public String getDeviceToken() {
         String deviceToken = "12345";
         if (!mPrefManager.getString(AppConstants.PreferenceConstants.DEVICE_TOKEN).isEmpty())

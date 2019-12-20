@@ -99,11 +99,12 @@ public class SignUpViewModel extends ViewModel {
                     .getString(R.string.message_enter_phone)
             ));
             return false;
-        } else if (user.getPhone().trim().length() < 10) {
+        } else if (user.getPhone().trim().length() != 10) {
             validateLiveData.setValue(new FailureResponse(
                     AppConstants.UiValidationConstants.INVALID_PHONE, ResourceUtil.getInstance()
                     .getString(R.string.message_enter_valid_phone)
             ));
+            return false;
         }
         return true;
     }
