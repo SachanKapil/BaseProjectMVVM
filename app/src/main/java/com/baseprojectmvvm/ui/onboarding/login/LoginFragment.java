@@ -75,6 +75,7 @@ public class LoginFragment extends BaseFragment<FragmentLoginBinding> {
                 if (objectWrappedResponse.getFailureResponse() != null) {
                     onFailure(objectWrappedResponse.getFailureResponse());
                 } else {
+                    showToastLong(getString(R.string.message_login_success));
                     loginHost.openHomeActivity();
                 }
             }

@@ -14,8 +14,6 @@ import androidx.databinding.DataBindingUtil;
 import androidx.databinding.ViewDataBinding;
 import androidx.fragment.app.Fragment;
 
-import com.baseprojectmvvm.R;
-import com.baseprojectmvvm.constant.AppConstants;
 import com.baseprojectmvvm.data.model.FailureResponse;
 
 
@@ -58,27 +56,15 @@ public abstract class BaseFragment<MyDataBinding extends ViewDataBinding> extend
     }
 
     public void onFailure(FailureResponse failureResponse) {
-        if (failureResponse != null) {
-            if (failureResponse.getErrorCode() == AppConstants.NetworkingConstants.UNAUTHORIZED) {
-                showToastShort(getString(R.string.message_session_expired));
-                logout();
-            } else if (failureResponse.getErrorCode() == AppConstants.NetworkingConstants.EMPTY_DATA_ERROR_CODE) {
-                showToastShort(getString(R.string.message_no_data_found));
-            } else if (failureResponse.getErrorCode() == AppConstants.NetworkingConstants.ACCOUNT_BLOCKED_CODE) {
-                showToastShort(getString(R.string.message_account_blocked));
-                logout();
-            } else {
-                showToastShort(failureResponse.getErrorMessage());
-            }
+        if (mActivity != null) {
+            mActivity.onFailure(failureResponse);
         }
     }
 
     public void logout() {
-//        DataManager.getInstance().clearPreferences();
-//        Intent intent = new Intent(App.getAppContext(), WelcomeActivity.class);
-//        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-//        startActivity(intent);
-//        getActivity().finish();
+        if (mActivity != null) {
+            mActivity.logout();
+        }
     }
 
     public void showToastLong(CharSequence message) {

@@ -67,7 +67,7 @@ public class ApiManager {
                     Request.Builder requestBuilder;
                     requestBuilder = original.newBuilder()
                             .method(original.method(), original.body());
-                    requestBuilder.header("Authorization", "Bearer " + DataManager.getInstance().getAccessToken())
+                    requestBuilder
                             .header("Accept", "application/json");
 
                     Request request = requestBuilder.build();

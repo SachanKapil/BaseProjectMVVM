@@ -6,12 +6,12 @@ public interface AppConstants {
     interface UiValidationConstants {
         int EMAIL_EMPTY = 101;
         int PASSWORD_EMPTY = 102;
-        int INVALID_PASSWORD = 104;
-        int INVALID_EMAIL = 103;
+        int INVALID_PASSWORD = 103;
+        int INVALID_EMAIL = 104;
         int NAME_EMPTY = 105;
-        int INVALID_NAME = 109;
-        int PHONE_EMPTY = 110;
-        int INVALID_PHONE = 111;
+        int INVALID_NAME = 106;
+        int PHONE_EMPTY = 107;
+        int INVALID_PHONE = 108;
     }
 
     interface NetworkingConstants {

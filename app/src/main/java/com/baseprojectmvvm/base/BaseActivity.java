@@ -19,7 +19,6 @@ import androidx.fragment.app.FragmentManager;
 
 import com.baseprojectmvvm.App;
 import com.baseprojectmvvm.R;
-import com.baseprojectmvvm.constant.AppConstants;
 import com.baseprojectmvvm.customview.loadindicator.LoadingDialog;
 import com.baseprojectmvvm.data.DataManager;
 import com.baseprojectmvvm.data.model.FailureResponse;
@@ -136,43 +135,9 @@ public abstract class BaseActivity<MyDataBinding extends ViewDataBinding> extend
             return null;
     }
 
-//    public void changeFragment(int layoutResId, BaseFragment myFragment, String tag) {
-//        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-//        BaseFragment fragment = (BaseFragment) getSupportFragmentManager().findFragmentByTag(tag);
-//        if (fragment != null) {
-//            fragmentTransaction.show(fragment);
-//        } else {
-//            fragment = myFragment;
-//            fragmentTransaction
-//                    .add(layoutResId, fragment, tag);
-//        }
-//
-//        if (activeFragment != null && activeFragment != fragment) {
-//            fragmentTransaction.hide(activeFragment);
-//        }
-//        activeFragment = fragment;
-//
-//        // Set fragment as primary navigator for child manager back stack to be handled by system
-//        fragmentTransaction.setPrimaryNavigationFragment(fragment);
-//        fragmentTransaction.setReorderingAllowed(true);
-//        fragmentTransaction.commit();
-//    }
-
-
     public void onFailure(FailureResponse failureResponse) {
-        if (failureResponse != null) {
-            if (failureResponse.getErrorCode() == AppConstants.NetworkingConstants.UNAUTHORIZED) {
-                showToastShort(getString(R.string.message_session_expired));
-                logout();
-            } else if (failureResponse.getErrorCode() == AppConstants.NetworkingConstants.EMPTY_DATA_ERROR_CODE) {
-                showToastShort(getString(R.string.message_no_data_found));
-            } else if (failureResponse.getErrorCode() == AppConstants.NetworkingConstants.ACCOUNT_BLOCKED_CODE) {
-                showToastShort(getString(R.string.message_account_blocked));
-                logout();
-            } else {
-                showToastShort(failureResponse.getErrorMessage());
-            }
-        }
+        showToastShort(failureResponse.getErrorMessage());
+
     }
 
     public void logout() {

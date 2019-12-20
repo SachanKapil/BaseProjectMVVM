@@ -65,10 +65,6 @@ public class DataManager {
         mPrefManager.putString(AppConstants.PreferenceConstants.REFRESH_TOKEN, refreshToken);
     }
 
-    public String getUserName() {
-        return mPrefManager.getString(AppConstants.PreferenceConstants.USER_NAME);
-    }
-
     public String getAccessToken() {
         return mPrefManager.getString(AppConstants.PreferenceConstants.ACCESS_TOKEN);
     }
@@ -78,8 +74,6 @@ public class DataManager {
     }
 
     public void saveUserDetails(User user) {
-        //save user name differently
-        mPrefManager.putString(AppConstants.PreferenceConstants.USER_NAME, user.getFirstName());
         String userDetail = new Gson().toJson(user);
         mPrefManager.putString(AppConstants.PreferenceConstants.USER_DETAILS, userDetail);
     }
