@@ -19,10 +19,6 @@ interface ApiClient {
     @POST("signup")
     Call<BaseResponse<User>> signUp(@Body User user);
 
-    @FormUrlEncoded
-    @POST("forget-password")
-    Call<BaseResponse<Object>> forgotPassword(@Field("email") String email);
-
     @PUT("logout")
     Call<BaseResponse<Object>> logOut();
 

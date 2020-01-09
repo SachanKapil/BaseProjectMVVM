@@ -8,12 +8,12 @@ import com.baseprojectmvvm.data.model.Event;
 import com.baseprojectmvvm.data.model.FailureResponse;
 import com.baseprojectmvvm.data.model.WrappedResponse;
 
-public class HomeRepo {
+class HomeRepo {
 
     /**
      * hit api for log out
      */
-    public MutableLiveData<Event<WrappedResponse<Object>>> hitLogOutApi() {
+    MutableLiveData<Event<WrappedResponse<Object>>> hitLogOutApi() {
 
         final MutableLiveData<Event<WrappedResponse<Object>>> logoutRequestLiveData = new MutableLiveData<>();
         final WrappedResponse<Object> wrappedResponse = new WrappedResponse<>();

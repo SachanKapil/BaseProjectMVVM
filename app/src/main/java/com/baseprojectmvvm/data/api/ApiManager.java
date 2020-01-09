@@ -114,10 +114,6 @@ public class ApiManager {
         return apiClient.signUp(user);
     }
 
-    public Call<BaseResponse<Object>> hitForgotPasswordApi(String email) {
-        return apiRegisteredClient.forgotPassword(email);
-    }
-
     public Call<BaseResponse<Object>> hitLogOutApi() {
         return apiRegisteredClient.logOut();
     }

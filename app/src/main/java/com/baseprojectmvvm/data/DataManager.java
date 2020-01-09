@@ -115,10 +115,6 @@ public class DataManager {
         return apiManager.hitSignUpApi(user);
     }
 
-    public Call<BaseResponse<Object>> hitForgotPasswordApi(String email) {
-        return apiManager.hitForgotPasswordApi(email);
-    }
-
     public Call<BaseResponse<Object>> hitLogOutApi() {
         return apiManager.hitLogOutApi();
     }
